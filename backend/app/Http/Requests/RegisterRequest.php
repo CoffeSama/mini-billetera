@@ -12,6 +12,16 @@ class RegisterRequest extends FormRequest
     }
 
     /**
+     * Los emails se guardan y comparan en minúsculas.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->email)) {
+            $this->merge(['email' => mb_strtolower(trim($this->email))]);
+        }
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function rules(): array
