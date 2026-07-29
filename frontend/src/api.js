@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:8000/api';
+// En producción se define VITE_API_URL; en desarrollo apunta al backend local.
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
 
 export function getToken() {
   return localStorage.getItem('token');
