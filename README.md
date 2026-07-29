@@ -2,6 +2,8 @@
 
 App web donde usuarios registrados ven su saldo, se envían dinero entre ellos y consultan su historial de movimientos.
 
+**Demo en línea:** https://mini-billetera.onrender.com (plan gratuito de Render: la primera request puede tardar ~1 minuto mientras el backend despierta).
+
 ## Stack
 
 - **Backend:** Laravel 13 (PHP 8.4) — API REST con Laravel Sanctum para autenticación por tokens.
@@ -83,8 +85,7 @@ php artisan test
 - Paginación y filtros del historial.
 - Recuperación de contraseña y verificación por email (excluidos por el enunciado).
 - Expiración de tokens.
-- Docker para la app completa (solo la base de datos corre en Docker).
-- Deploy en línea.
+- Docker Compose para la app completa (en desarrollo solo la base corre en Docker; el backend sí se construye con Dockerfile para el deploy).
 
 ## Ramas
 
