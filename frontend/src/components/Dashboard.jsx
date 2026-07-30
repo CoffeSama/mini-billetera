@@ -25,6 +25,12 @@ export default function Dashboard({ user, setUser, onLogout }) {
     refresh();
   }, [refresh]);
 
+  // Al cambiar de vista (inicio ↔ historial) volvemos arriba, como
+  // haría una navegación real del navegador.
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [view]);
+
   // Contactos recientes: contrapartes únicas del historial (ya viene ordenado
   // por fecha desc), máximo 4, para reenviar sin tipear el email.
   const contacts = [];
