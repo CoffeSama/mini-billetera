@@ -42,16 +42,19 @@ export default function TransferForm({ balance, onSuccess }) {
           description: description || null,
         },
       });
+      // Cerramos el modal ANTES de limpiar los campos: si limpiáramos primero,
+      // el modal abierto mostraría "Bs 0,00" por un instante.
+      setConfirming(false);
       setSuccess('✓ Transferencia realizada.');
       setEmail('');
       setAmount('');
       setDescription('');
       await onSuccess();
     } catch (err) {
+      setConfirming(false);
       setError(err.message);
     } finally {
       setLoading(false);
-      setConfirming(false);
     }
   }
 
