@@ -25,7 +25,8 @@ class TransferRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'amount' => ['required', 'numeric', 'gt:0', 'decimal:0,2'],
+            // max: evita desbordar la columna decimal(12,2) con montos absurdos.
+            'amount' => ['required', 'numeric', 'gt:0', 'decimal:0,2', 'max:9999999999'],
             'description' => ['nullable', 'string', 'max:255'],
         ];
     }
