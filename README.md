@@ -80,12 +80,12 @@ cd backend
 php artisan test
 ```
 
-## Qué quedó fuera por tiempo
+## Qué quedó fuera y por qué
 
-- Paginación y filtros del historial.
-- Recuperación de contraseña y verificación por email (excluidos por el enunciado).
-- Expiración de tokens.
-- Docker Compose para la app completa (en desarrollo solo la base corre en Docker; el backend sí se construye con Dockerfile para el deploy).
+- Paginación y filtros del historial — el enunciado indica que una lista simple alcanza.
+- Recuperación de contraseña y verificación por email — excluidos por el enunciado.
+- Expiración de tokens — mejora de seguridad que prioricé por debajo de las reglas de negocio.
+- Docker Compose para la app completa — en desarrollo solo la base corre en Docker; el backend igual se construye con Dockerfile para el deploy.
 
 ## Ramas
 
