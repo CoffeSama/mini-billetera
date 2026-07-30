@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { api } from '../api';
 import { money } from '../format';
 
@@ -23,6 +24,14 @@ export default function TransferForm({ balance, contacts = [], onSuccess }) {
 
   // Aviso temprano de UX; la validación real siempre es del backend.
   const exceedsBalance = amount !== '' && Number(amount) > Number(balance);
+
+  // Con el modal abierto, bloqueamos el scroll del fondo.
+  useEffect(() => {
+    document.body.style.overflow = confirming ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [confirming]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -141,7 +150,10 @@ export default function TransferForm({ balance, contacts = [], onSuccess }) {
         </button>
       </form>
 
-      {confirming && (
+      {/* Portal: el modal se renderiza en <body>, fuera de las tarjetas.
+          Si quedara adentro, el transform de la animación de la tarjeta
+          convertiría a la tarjeta en el contenedor del position:fixed. */}
+      {confirming && createPortal(
         <div className="modal-overlay" onClick={() => !loading && setConfirming(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h3>Confirmar transferencia</h3>
@@ -164,7 +176,8 @@ export default function TransferForm({ balance, contacts = [], onSuccess }) {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
