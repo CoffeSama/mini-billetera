@@ -67,7 +67,7 @@ export default function Dashboard({ user, setUser, onLogout }) {
 
         <section className="card">
           <h2>Enviar dinero</h2>
-          <TransferForm onSuccess={refresh} />
+          <TransferForm balance={user.balance} onSuccess={refresh} />
         </section>
 
         <section className="card">

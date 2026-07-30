@@ -2,7 +2,13 @@ import { money, fecha } from '../format';
 
 export default function History({ transfers }) {
   if (transfers === null) {
-    return <p className="muted">Cargando historial…</p>;
+    return (
+      <div aria-label="Cargando historial">
+        <div className="skeleton" />
+        <div className="skeleton" />
+        <div className="skeleton" />
+      </div>
+    );
   }
 
   if (transfers.length === 0) {
