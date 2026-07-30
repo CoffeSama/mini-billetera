@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../api';
+import EyeIcon from './EyeIcon';
 
 export default function Register({ onRegister, onGoLogin }) {
   const [name, setName] = useState('');
@@ -83,7 +84,7 @@ export default function Register({ onRegister, onGoLogin }) {
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             >
-              {showPassword ? '🙈' : '👁️'}
+              <EyeIcon off={showPassword} />
             </button>
           </div>
         </label>

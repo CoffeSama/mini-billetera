@@ -445,8 +445,14 @@ main > .alert {
   background: none;
   border: none;
   box-shadow: none;
-  font-size: 1rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
   cursor: pointer;
+}
+
+.pw-toggle:hover {
+  color: var(--honey-dark);
 }
 
 .pw-toggle:hover:not(:disabled) {
