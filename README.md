@@ -46,7 +46,7 @@ Abrir **http://localhost:5173** en el navegador.
 | ana@beepay.test | password123 | Bs 1000 |
 | beto@beepay.test | password123 | Bs 1000 |
 
-Con ellos se puede probar una transferencia de inmediato. Todo usuario nuevo también arranca con Bs 1000.
+El seeder también crea algunos movimientos de ejemplo entre ellos para que el historial no arranque vacío; los montos se cancelan entre sí, por lo que ambos usuarios conservan sus Bs 1000. Se puede probar una transferencia de inmediato, y todo usuario nuevo también arranca con Bs 1000.
 
 ## Endpoints de la API
 
