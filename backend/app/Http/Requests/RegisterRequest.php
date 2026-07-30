@@ -27,9 +27,12 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            // Letras (con acentos), espacios, apóstrofes, puntos y guiones.
+            // Suficientemente estricto para frenar basura, sin rechazar nombres reales.
+            'name' => ['required', 'string', 'max:255', 'regex:/^[\pL\pM\s\'\.\-]+$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
+            // 'confirmed' exige que llegue password_confirmation idéntico.
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 
@@ -39,8 +42,10 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.regex' => 'El nombre solo puede contener letras, espacios, apóstrofes, puntos y guiones.',
             'email.unique' => 'Ya existe una cuenta con ese email.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
         ];
     }
 }

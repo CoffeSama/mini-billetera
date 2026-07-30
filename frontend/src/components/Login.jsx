@@ -4,6 +4,7 @@ import { api } from '../api';
 export default function Login({ onLogin, onGoRegister }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +36,7 @@ export default function Login({ onLogin, onGoRegister }) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="tu@email.com"
             required
             autoFocus
           />
@@ -42,12 +44,22 @@ export default function Login({ onLogin, onGoRegister }) {
 
         <label>
           Contraseña
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="pw-row">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="pw-toggle"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </button>
+          </div>
         </label>
 
         <button type="submit" disabled={loading}>

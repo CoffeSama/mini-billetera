@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api';
+import { money } from '../format';
 import TransferForm from './TransferForm';
 import History from './History';
 
@@ -23,11 +24,16 @@ export default function Dashboard({ user, setUser, onLogout }) {
     refresh();
   }, [refresh]);
 
+  const sent = transfers?.filter((t) => t.type === 'sent') ?? [];
+  const received = transfers?.filter((t) => t.type === 'received') ?? [];
+  const sum = (list) => list.reduce((acc, t) => acc + Number(t.amount), 0);
+
   return (
     <div className="dashboard">
       <header className="topbar">
         <span className="brand">BeePay</span>
         <div className="topbar-right">
+          <span className="avatar">{user.name.charAt(0).toUpperCase()}</span>
           <span>{user.name}</span>
           <button type="button" className="secondary" onClick={onLogout}>
             Cerrar sesión
@@ -37,10 +43,24 @@ export default function Dashboard({ user, setUser, onLogout }) {
 
       <main>
         <section className="card balance-card">
+          <p className="greeting">Hola, {user.name.split(' ')[0]} 👋</p>
           <p className="balance-label">Saldo disponible</p>
-          <p className="balance">
-            Bs {Number(user.balance).toFixed(2)}
-          </p>
+          <p className="balance">{money(user.balance)}</p>
+
+          {transfers !== null && (
+            <div className="stats">
+              <div className="stat">
+                <span className="stat-label">↑ Enviado</span>
+                <span className="stat-value">{money(sum(sent))}</span>
+                <span className="stat-count">{sent.length} {sent.length === 1 ? 'movimiento' : 'movimientos'}</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">↓ Recibido</span>
+                <span className="stat-value">{money(sum(received))}</span>
+                <span className="stat-count">{received.length} {received.length === 1 ? 'movimiento' : 'movimientos'}</span>
+              </div>
+            </div>
+          )}
         </section>
 
         {error && <p className="alert alert-error">{error}</p>}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../api';
 
 export default function TransferForm({ onSuccess }) {
@@ -8,6 +8,13 @@ export default function TransferForm({ onSuccess }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // El mensaje de éxito se oculta solo a los 4 segundos.
+  useEffect(() => {
+    if (!success) return;
+    const t = setTimeout(() => setSuccess(null), 4000);
+    return () => clearTimeout(t);
+  }, [success]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -23,7 +30,7 @@ export default function TransferForm({ onSuccess }) {
           description: description || null,
         },
       });
-      setSuccess('Transferencia realizada.');
+      setSuccess('✓ Transferencia realizada.');
       setEmail('');
       setAmount('');
       setDescription('');
@@ -70,6 +77,7 @@ export default function TransferForm({ onSuccess }) {
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          placeholder="¿Para qué es?"
           maxLength={255}
         />
       </label>
