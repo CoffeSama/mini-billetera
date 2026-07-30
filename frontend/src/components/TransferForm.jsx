@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api } from '../api';
 import { money } from '../format';
 
 const QUICK_AMOUNTS = [10, 50, 100];
 
-export default function TransferForm({ balance, onSuccess }) {
+export default function TransferForm({ balance, contacts = [], onSuccess }) {
+  const amountRef = useRef(null);
   const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
@@ -64,6 +65,27 @@ export default function TransferForm({ balance, onSuccess }) {
         {error && <p className="alert alert-error">{error}</p>}
         {success && <p className="alert alert-success">{success}</p>}
 
+        {contacts.length > 0 && (
+          <div className="contacts">
+            <span className="contacts-label">Recientes:</span>
+            {contacts.map((c) => (
+              <button
+                key={c.email}
+                type="button"
+                className={`contact ${email === c.email ? 'contact-active' : ''}`}
+                title={c.email}
+                onClick={() => {
+                  setEmail(c.email);
+                  amountRef.current?.focus();
+                }}
+              >
+                <span className="contact-avatar">{c.name.charAt(0).toUpperCase()}</span>
+                {c.name.split(' ')[0]}
+              </button>
+            ))}
+          </div>
+        )}
+
         <label>
           Email del destinatario
           <input
@@ -78,6 +100,7 @@ export default function TransferForm({ balance, onSuccess }) {
         <label>
           Monto (Bs)
           <input
+            ref={amountRef}
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}

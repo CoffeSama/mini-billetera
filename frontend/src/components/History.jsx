@@ -25,10 +25,14 @@ export default function History({ transfers, limit }) {
 
   return (
     <ul className="history">
-      {visible.map((t) => {
+      {visible.map((t, i) => {
         const sent = t.type === 'sent';
         return (
-          <li key={t.id} className="history-item">
+          <li
+            key={t.id}
+            className="history-item"
+            style={{ animationDelay: `${i * 50}ms` }}
+          >
             <div>
               <p className="history-title">
                 {sent ? 'Enviado a' : 'Recibido de'} {t.counterparty.name}
