@@ -7,6 +7,7 @@ import History from './History';
 export default function Dashboard({ user, setUser, onLogout }) {
   const [transfers, setTransfers] = useState(null);
   const [error, setError] = useState(null);
+  const [view, setView] = useState('home'); // 'home' | 'history'
 
   // Refresca saldo e historial juntos (al entrar y después de cada transferencia).
   const refresh = useCallback(async () => {
@@ -24,10 +25,6 @@ export default function Dashboard({ user, setUser, onLogout }) {
     refresh();
   }, [refresh]);
 
-  const sent = transfers?.filter((t) => t.type === 'sent') ?? [];
-  const received = transfers?.filter((t) => t.type === 'received') ?? [];
-  const sum = (list) => list.reduce((acc, t) => acc + Number(t.amount), 0);
-
   return (
     <div className="dashboard">
       <header className="topbar">
@@ -42,36 +39,49 @@ export default function Dashboard({ user, setUser, onLogout }) {
       </header>
 
       <main>
-        <section className="card balance-card">
-          <p className="greeting">Hola, {user.name.split(' ')[0]} 👋</p>
-          <p className="balance-label">Saldo disponible</p>
-          <p className="balance">{money(user.balance)}</p>
+        {view === 'home' ? (
+          <>
+            <section className="card balance-card">
+              <p className="greeting">Hola, {user.name.split(' ')[0]} 👋</p>
+              <p className="balance-label">Saldo disponible</p>
+              <p className="balance">{money(user.balance)}</p>
+            </section>
 
-          {transfers !== null && (
-            <div className="stats">
-              <div className="stat">
-                <span className="stat-label">↑ Enviado</span>
-                <span className="stat-value">{money(sum(sent))}</span>
+            {error && <p className="alert alert-error">{error}</p>}
+
+            <section className="card">
+              <h2>Enviar dinero</h2>
+              <TransferForm balance={user.balance} onSuccess={refresh} />
+            </section>
+
+            <section className="card">
+              <div className="section-head">
+                <h2>Movimientos recientes</h2>
+                {transfers?.length > 0 && (
+                  <button
+                    type="button"
+                    className="link"
+                    onClick={() => setView('history')}
+                  >
+                    Ver historial completo →
+                  </button>
+                )}
               </div>
-              <div className="stat">
-                <span className="stat-label">↓ Recibido</span>
-                <span className="stat-value">{money(sum(received))}</span>
-              </div>
+              <History transfers={transfers} limit={3} />
+            </section>
+          </>
+        ) : (
+          <section className="card">
+            <div className="section-head">
+              <h2>Historial</h2>
+              <button type="button" className="link" onClick={() => setView('home')}>
+                ← Volver
+              </button>
             </div>
-          )}
-        </section>
-
-        {error && <p className="alert alert-error">{error}</p>}
-
-        <section className="card">
-          <h2>Enviar dinero</h2>
-          <TransferForm balance={user.balance} onSuccess={refresh} />
-        </section>
-
-        <section className="card">
-          <h2>Historial</h2>
-          <History transfers={transfers} />
-        </section>
+            {error && <p className="alert alert-error">{error}</p>}
+            <History transfers={transfers} />
+          </section>
+        )}
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
 import { money, fecha } from '../format';
 
-export default function History({ transfers }) {
+export default function History({ transfers, limit }) {
   if (transfers === null) {
     return (
       <div aria-label="Cargando historial">
@@ -21,9 +21,11 @@ export default function History({ transfers }) {
     );
   }
 
+  const visible = limit ? transfers.slice(0, limit) : transfers;
+
   return (
     <ul className="history">
-      {transfers.map((t) => {
+      {visible.map((t) => {
         const sent = t.type === 'sent';
         return (
           <li key={t.id} className="history-item">
