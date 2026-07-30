@@ -264,18 +264,12 @@ button.link {
 }
 
 main {
-  max-width: 920px;
+  max-width: 680px;
   margin: 24px auto 48px;
   padding: 0 16px;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
-  align-items: start;
-}
-
-main > .balance-card,
-main > .alert {
-  grid-column: 1 / -1;
 }
 
 /* ---------- Saldo ---------- */
@@ -584,7 +578,6 @@ main > .alert {
 
 @media (max-width: 760px) {
   main {
-    grid-template-columns: 1fr;
     margin-top: 16px;
     gap: 14px;
   }

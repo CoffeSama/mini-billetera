@@ -52,12 +52,10 @@ export default function Dashboard({ user, setUser, onLogout }) {
               <div className="stat">
                 <span className="stat-label">↑ Enviado</span>
                 <span className="stat-value">{money(sum(sent))}</span>
-                <span className="stat-count">{sent.length} {sent.length === 1 ? 'movimiento' : 'movimientos'}</span>
               </div>
               <div className="stat">
                 <span className="stat-label">↓ Recibido</span>
                 <span className="stat-value">{money(sum(received))}</span>
-                <span className="stat-count">{received.length} {received.length === 1 ? 'movimiento' : 'movimientos'}</span>
               </div>
             </div>
           )}
